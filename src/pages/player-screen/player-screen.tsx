@@ -1,7 +1,17 @@
-function PlayerScreen(){
+import {useParams} from 'react-router-dom';
+import {Film} from '../../mocks/films';
+
+export type PlayerScreenProps = {
+  films: Film[];
+}
+
+function PlayerScreen(props: PlayerScreenProps){
+  const {id} = useParams();
+  const film = props.films.filter((x)=>x.id === id)[0];
+
   return(
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.video} className="player__video" poster={film.image}></video>
 
       <button type="button" className="player__exit">Exit</button>
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import FilmCard from '../../components/film-card';
+import {FilmCardsList} from '../../components/film-card';
+import {Film} from '../../mocks/films';
 
 type PromoFilm = {
   title: string;
@@ -9,6 +10,7 @@ type PromoFilm = {
 
 export type MainScreenProps = {
   promoFilm: PromoFilm;
+  films: Film[];
 }
 
 export function MainScreen(props: MainScreenProps) {
@@ -112,32 +114,7 @@ export function MainScreen(props: MainScreenProps) {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            <FilmCard image="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" title="Fantastic Beasts: The Crimes of Grindelwald" link="film-page.html"/>
-            <FilmCard image="img/bohemian-rhapsody.jpg" title="Bohemian Rhapsody" link="film-page.html"/>
-            <FilmCard image="img/macbeth.jpg" title="Macbeth" link="film-page.html"/>
-            <FilmCard image="img/aviator.jpg" title="Aviator" link="film-page.html"/>
-
-            <FilmCard image="img/we-need-to-talk-about-kevin.jpg" title="We need to talk about Kevin" link="film-page.html"/>
-            <FilmCard image="img/what-we-do-in-the-shadows.jpg" title="What We Do in the Shadows" link="film-page.html"/>
-            <FilmCard image="img/revenant.jpg" title="Revenant" link="film-page.html"/>
-            <FilmCard image="img/johnny-english.jpg" title="Johnny English" link="film-page.html"/>
-
-            <FilmCard image="img/shutter-island.jpg" title="Shutter Island" link="film-page.html"/>
-            <FilmCard image="img/pulp-fiction.jpg" title="Pulp Fiction" link="film-page.html"/>
-            <FilmCard image="img/no-country-for-old-men.jpg" title="No Country for Old Men" link="film-page.html"/>
-            <FilmCard image="img/snatch.jpg" title="Snatch" link="film-page.html"/>
-
-            <FilmCard image="img/moonrise-kingdom.jpg" title="Moonrise Kingdom" link="film-page.html"/>
-            <FilmCard image="img/seven-years-in-tibet.jpg" title="Seven Years in Tibet" link="film-page.html"/>
-            <FilmCard image="img/midnight-special.jpg" title="Midnight Special" link="film-page.html"/>
-            <FilmCard image="img/war-of-the-worlds.jpg" title="War of the Worlds" link="film-page.html"/>
-
-            <FilmCard image="img/dardjeeling-limited.jpg" title="Dardjeeling Limited" link="film-page.html"/>
-            <FilmCard image="img/orlando.jpg" title="Orlando" link="film-page.html"/>
-            <FilmCard image="img/mindhunter.jpg" title="Mindhunter" link="film-page.html"/>
-            <FilmCard image="img/midnight-special.jpg" title="Midnight Special" link="film-page.html"/>
-          </div>
+          <FilmCardsList films={props.films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
