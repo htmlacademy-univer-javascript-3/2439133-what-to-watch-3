@@ -1,12 +1,10 @@
-import {Films} from './mocks/films';
-import {Details} from './mocks/films-details';
+import {Film} from './mocks/films';
 
-
-export function getFilmsByGenre (genre: string) {
+export function getFilmsByGenre (genre: string, films: Film[]) {
   if (genre === 'All genres') {
-    return Films;
+    return films;
   }
 
-  return Films.filter((x) =>
-    genre === Details.find((y) => y.filmId === x.id)?.genre);
+  return films.filter((x) =>
+    genre === x.genre);
 }

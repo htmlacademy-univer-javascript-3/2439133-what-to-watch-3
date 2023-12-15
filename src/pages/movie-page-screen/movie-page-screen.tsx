@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {Film, Films} from '../../mocks/films';
+import {Film} from '../../mocks/films';
 import {Details} from '../../mocks/films-details';
 import {Reviews} from '../../mocks/films-reviews';
 import {Overviews} from '../../mocks/films-overviews';
 import {AppRoute} from '../../const';
 import {Tabs} from '../../components/film-tabs';
 import {FilmCardsList} from '../../components/film-card';
+import {store} from '../../store';
 
 function getSimilar(id:string, films:Film[], genre: string): Film[] {
   return films.filter((x) =>
@@ -14,6 +15,7 @@ function getSimilar(id:string, films:Film[], genre: string): Film[] {
 }
 function MoviePageScreen(){
   const {id} = useParams();
+  const Films = store.getState().films;
   const film = Films.find((x) => x.id === id);
 
   const overview = Overviews.find((x) => x.filmId === id);
@@ -26,7 +28,7 @@ function MoviePageScreen(){
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.bgImage} alt={film.title}/>
+            <img src={film.previewImage} alt={film.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -54,9 +56,9 @@ function MoviePageScreen(){
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.title}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{details.genre}</span>
+                <span className="film-card__genre">{film.genre}</span>
                 <span className="film-card__year">{details.releaseYear}</span>
               </p>
 
@@ -83,7 +85,7 @@ function MoviePageScreen(){
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.image} alt={film.title} width="218"
+              <img src={film.previewImage} alt={film.name} width="218"
                 height="327"
               />
             </div>
@@ -99,7 +101,7 @@ function MoviePageScreen(){
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmCardsList films={getSimilar(id, Films, details.genre)}/>
+          <FilmCardsList films={getSimilar(id, Films, film.genre)}/>
         </section>
 
         <footer className="page-footer">
