@@ -21,12 +21,17 @@ export type MainScreenProps = {
 export function MainScreen(props: MainScreenProps) {
   const filmsByGenre = useSelector((state: State) => state.filmsByGenre);
   const dispatch = useDispatch();
+  const [visibleCount, setVisibleCount] = useState(8);
   const [genre, setGenre] = useState('All genres');
 
+  const handleShow = () => {
+    setVisibleCount((x) => x + 8);
+  };
 
   const handleGenreChange = (newGenre: string) => {
     setGenre(newGenre);
     dispatch(changeGenre(newGenre));
+    setVisibleCount(8);
   };
 
   return (
@@ -98,11 +103,13 @@ export function MainScreen(props: MainScreenProps) {
 
           <GenresList details={Details} currentGenre={genre} onChange={handleGenreChange}/>
 
-          <FilmCardsList films={filmsByGenre}/>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <FilmCardsList films={filmsByGenre.slice(0,visibleCount)}/>
+          {
+            filmsByGenre.length > visibleCount &&
+            <div className="catalog__more">
+              <button className="catalog__button" type="button" onClick={handleShow}>Show more</button>
+            </div>
+          }
         </section>
 
         <footer className="page-footer">
