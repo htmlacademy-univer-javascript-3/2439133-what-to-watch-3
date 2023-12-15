@@ -1,23 +1,22 @@
-import { changeGenre, setFilms } from './action';
-import { Film } from '../mocks/films';
+import { changeGenre } from './action';
+import {Film, Films} from '../mocks/films';
 import { createReducer } from '@reduxjs/toolkit';
+import {getFilmsByGenre} from '../getFilmsByGenre';
 
-type State = {
+export type State = {
   genre: string;
-  films: Film[];
+  filmsByGenre: Film[];
 };
 
 const initialState: State = {
-  genre: '',
-  films: [],
+  genre: 'All genres',
+  filmsByGenre: Films
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeGenre, (state, action) => {
       state.genre = action.payload;
-    })
-    .addCase(setFilms, (state, action) => {
-      state.films = action.payload;
+      state.filmsByGenre = getFilmsByGenre(action.payload);
     });
 });

@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {FilmCardsList} from '../../components/film-card';
-import {Film, Films} from '../../mocks/films';
+import {Film} from '../../mocks/films';
 import {Details} from '../../mocks/films-details';
-import {getFilmsByGenre} from '../../getFilmsByGenre';
 import {GenresList} from '../../components/genres-list';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeGenre} from '../../store/action';
+import {State} from '../../store/reducer';
 
 type PromoFilm = {
   title: string;
@@ -17,14 +19,15 @@ export type MainScreenProps = {
 }
 
 export function MainScreen(props: MainScreenProps) {
+  const filmsByGenre = useSelector((state: State) => state.filmsByGenre);
+  const dispatch = useDispatch();
   const [genre, setGenre] = useState('All genres');
-  const [filmsByGenre, setFilmsByGenre] = useState(Films);
 
-  function handleGenreChange (newGenre: string) {
+
+  const handleGenreChange = (newGenre: string) => {
     setGenre(newGenre);
-    const filmsByNewGenre = getFilmsByGenre(newGenre);
-    setFilmsByGenre(filmsByNewGenre);
-  }
+    dispatch(changeGenre(newGenre));
+  };
 
   return (
     <React.Fragment>
