@@ -1,11 +1,10 @@
 import {Film} from '../mocks/films';
 import {AppRoute} from '../const';
-import {MouseEventHandler, useState} from 'react';
+import {useState, useRef} from 'react';
+import {VideoPlayer} from './video-player';
 
 type FilmCardProps = {
   film: Film;
-  onMouseEnter: MouseEventHandler;
-  onMouseLeave: MouseEventHandler;
 }
 
 type FilmCardsListProps = {
@@ -13,11 +12,27 @@ type FilmCardsListProps = {
 }
 export function FilmCard(props: FilmCardProps) {
   const film = props.film;
+  const [isPlaying, setIsPlaying] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  const handleMouseEnter = () => {
+    timeoutRef.current = window.setTimeout(() => setIsPlaying(true), 1000);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIsPlaying(false);
+  };
 
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="small-film-card__image">
-        <img src={film.image} alt={film.title} width="280" height="175" />
+        {isPlaying ? (
+          <VideoPlayer src={film.video} muted width="280" height="175" poster={film.image} autoplay />)
+          : (<img src={film.image} alt={film.title} width="280" height="175" />)}
       </div>
       <h3 className="small-film-card__title">
         <a className="small-film-card__link" href={`${AppRoute.Film.replace(':id', film.id)}`}>{film.title}</a>
@@ -28,7 +43,6 @@ export function FilmCard(props: FilmCardProps) {
 
 export function FilmCardsList(props: FilmCardsListProps){
   const films = props.films;
-  const [, setActive] = useState<Film | null>(null);
 
   return (
     <div className="catalog__films-list">
@@ -36,8 +50,6 @@ export function FilmCardsList(props: FilmCardsListProps){
         <FilmCard
           key={film.id}
           film={film}
-          onMouseEnter={() => setActive(film)}
-          onMouseLeave={() => setActive(null)}
         />
       ))}
     </div>
