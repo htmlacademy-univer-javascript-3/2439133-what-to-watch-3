@@ -6,6 +6,7 @@ import {GenresList} from '../../components/genres-list';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeGenre} from '../../store/action';
 import {State} from '../../store/reducer';
+import {Spinner} from '../../components/spinner';
 
 type PromoFilm = {
   title: string;
@@ -102,8 +103,12 @@ export function MainScreen(props: MainScreenProps) {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenresList details={Details} currentGenre={genre} onChange={handleGenreChange}/>
+          {
+            useSelector((state:State) => state.filmsLoadingStatus)
+              ? <Spinner />
+              : <FilmCardsList films={filmsByGenre.slice(0,visibleCount)}/>
+          }
 
-          <FilmCardsList films={filmsByGenre.slice(0,visibleCount)}/>
           {
             filmsByGenre.length > visibleCount &&
             <div className="catalog__more">

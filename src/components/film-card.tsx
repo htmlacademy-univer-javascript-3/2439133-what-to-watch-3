@@ -31,11 +31,11 @@ export function FilmCard(props: FilmCardProps) {
     <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="small-film-card__image">
         {isPlaying ? (
-          <VideoPlayer src={film.video} muted width="280" height="175" poster={film.image} autoplay />)
-          : (<img src={film.image} alt={film.title} width="280" height="175" />)}
+          <VideoPlayer src={film.previewVideoLink} muted width="280" height="175" poster={film.previewImage} autoplay />)
+          : (<img src={film.previewImage} alt={film.name} width="280" height="175" />)}
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href={`${AppRoute.Film.replace(':id', film.id)}`}>{film.title}</a>
+        <a className="small-film-card__link" href={`${AppRoute.Film.replace(':id', film.id)}`}>{film.name}</a>
       </h3>
     </article>
   );

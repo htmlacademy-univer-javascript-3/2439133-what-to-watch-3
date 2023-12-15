@@ -14,7 +14,7 @@ function AddReviewScreen(props: AddReviewScreenProps) {
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.bgImage} alt={film.title}/>
+          <img src={film.previewImage} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,7 +31,7 @@ function AddReviewScreen(props: AddReviewScreenProps) {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`${AppRoute.Film.replace(':id', film.id)}`} className="breadcrumbs__link">{film.title}</Link>
+                <Link to={`${AppRoute.Film.replace(':id', film.id)}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -52,7 +52,7 @@ function AddReviewScreen(props: AddReviewScreenProps) {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.image} alt={film.title} width="218"
+          <img src={film.previewImage} alt={film.name} width="218"
             height="327"
           />
         </div>

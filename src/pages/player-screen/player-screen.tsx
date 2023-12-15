@@ -11,7 +11,7 @@ function PlayerScreen(props: PlayerScreenProps){
 
   return(
     <div className="player">
-      <video src={film.video} className="player__video" poster={film.image}></video>
+      <video src={film.previewVideoLink} className="player__video" poster={film.previewImage}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
