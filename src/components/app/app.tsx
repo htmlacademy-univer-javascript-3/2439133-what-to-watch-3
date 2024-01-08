@@ -1,5 +1,5 @@
 import {MainScreen, MainScreenProps} from '../../pages/main-screen/main-screen';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen, {MyListScreenProps} from '../../pages/my-list-screen/my-list-screen';
 import MoviePageScreen from '../../pages/movie-page-screen/movie-page-screen';
@@ -7,7 +7,12 @@ import AddReviewScreen, {AddReviewScreenProps} from '../../pages/add-review-scre
 import PlayerScreen, {PlayerScreenProps} from '../../pages/player-screen/player-screen';
 import PageNotFoundScreen from '../../pages/page-not-found-screen/page-not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useSelector} from 'react-redux';
+import {State} from '../../store/reducer';
+import {Spinner} from '../spinner';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   mainProps: MainScreenProps;
@@ -16,8 +21,15 @@ type AppProps = {
   addReviewProps: AddReviewScreenProps;
 }
 function App(props: AppProps) {
+  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return (
+      <Spinner />
+    );
+  }
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -30,7 +42,7 @@ function App(props: AppProps) {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute isAuthorized={false}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <MyListScreen {...props.myListProps}/>
             </PrivateRoute>
           }
@@ -52,7 +64,7 @@ function App(props: AppProps) {
           element={<PageNotFoundScreen/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
