@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Tabs} from '../../components/film-tabs';
 import {FilmCardsList} from '../../components/film-card';
 import {useAppDispatch} from '../../appDispatch';
-import {getFilmAction, getFilmReviewsAction, getSimilarFilmsAction} from '../../store/api-actions';
+import {
+  addFavoriteAction,
+  getFavoritesAction,
+  getFilmAction,
+  getFilmReviewsAction,
+  getSimilarFilmsAction
+} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
 import {State} from '../../store/reducer';
 import {Spinner} from '../../components/spinner';
@@ -16,17 +22,22 @@ function MoviePageScreen(){
     dispatch(getFilmAction(id ?? ''));
     dispatch(getSimilarFilmsAction(id ?? ''));
     dispatch(getFilmReviewsAction(id ?? ''));
+    dispatch(getFavoritesAction());
   },[id, dispatch]);
 
   const film = useSelector((state:State) => state.currentFilm);
 
   const reviews = useSelector((state:State) => state.filmComments);
   const similarFilms = useSelector((state:State) => state.similarFilms);
+  const favorites = useSelector((state:State) => state.favorites);
+
   const [activeTab, setActiveTab] = useState('Overview');
 
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
 
   const loading = useSelector((state:State) => state.filmsLoadingStatus);
+
+  const navigate = useNavigate();
 
   if(authorizationStatus !== AuthorizationStatus.Auth || loading || film === undefined) {
     return (
@@ -34,6 +45,13 @@ function MoviePageScreen(){
     );
   }
 
+  const handlePlay = () => {
+    navigate(AppRoute.Player.replace(':id', id ?? ''));
+  };
+
+  const handleChangeList = () => {
+    dispatch(addFavoriteAction({id: id, status: film.isFavorite ? 0 : 1}));
+  };
 
   return(
     <React.Fragment>
@@ -75,18 +93,22 @@ function MoviePageScreen(){
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={handlePlay}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={handleChangeList}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    {
+                      film.isFavorite
+                        ? <use xlinkHref="#in-list"></use>
+                        : <use xlinkHref="#add"></use>
+                    }
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{favorites.length}</span>
                 </button>
                 {authorizationStatus === AuthorizationStatus.Auth &&
                   <a href={AppRoute.AddReview.replace(':id', id ?? '')} className="btn film-card__button">Add review</a>}

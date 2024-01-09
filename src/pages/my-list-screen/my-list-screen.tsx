@@ -1,13 +1,20 @@
 import {FilmCardsList} from '../../components/film-card';
-import {FilmInList} from '../../mocks/films';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import {useAppDispatch} from '../../appDispatch';
+import {useEffect} from 'react';
+import {getFavoritesAction} from '../../store/api-actions';
+import {useSelector} from 'react-redux';
+import {State} from '../../store/reducer';
 
-export type MyListScreenProps = {
-  films: FilmInList[];
-}
+function MyListScreen(){
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getFavoritesAction());
+  },[dispatch]);
 
-function MyListScreen(props: MyListScreenProps){
+  const films = useSelector((state:State) => state.favorites);
+
   return(
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -35,7 +42,7 @@ function MyListScreen(props: MyListScreenProps){
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmCardsList films={props.films}/>
+        <FilmCardsList films={films}/>
       </section>
 
       <footer className="page-footer">

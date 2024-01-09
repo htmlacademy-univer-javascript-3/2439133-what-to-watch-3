@@ -1,6 +1,6 @@
 import {
   changeGenre,
-  requireAuthorization,
+  requireAuthorization, setFavorites,
   setFilm,
   setFilmComments,
   setFilms,
@@ -17,6 +17,7 @@ export type State = {
   genre: string;
   filmsByGenre: FilmInList[];
   films: FilmInList[];
+  favorites: FilmInList[];
   similarFilms: FilmInList[];
   currentFilm?: Film;
   filmComments: Review[];
@@ -29,6 +30,7 @@ const initialState: State = {
   filmsByGenre: [],
   films: [],
   similarFilms: [],
+  favorites: [],
   currentFilm: undefined,
   filmComments: [],
   filmsLoadingStatus: false,
@@ -52,6 +54,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilmComments, (state, action) => {
       state.filmComments = action.payload;
+    })
+    .addCase(setFavorites, (state, action) => {
+      state.favorites = action.payload;
     })
     .addCase(setFilmsLoadingStatus, (state, action) => {
       state.filmsLoadingStatus = action.payload;

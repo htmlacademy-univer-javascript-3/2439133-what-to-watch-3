@@ -10,14 +10,14 @@ type PrivateRouteProps = {
 function PrivateRoute(props: PrivateRouteProps) {
   const {authorizationStatus, children} = props;
 
-  return (
-    authorizationStatus === AuthorizationStatus.Auth
-      ?
-      <section>
-        children
-      </section>
-      : <Navigate to={AppRoute.SignIn} />
-  );
+  return(
+    <div>
+      {
+        authorizationStatus === AuthorizationStatus.Auth
+          ? children
+          : <Navigate to={AppRoute.SignIn} />
+      }
+    </div>);
 }
 
 export default PrivateRoute;
