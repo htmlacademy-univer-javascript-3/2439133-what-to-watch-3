@@ -10,6 +10,7 @@ Player='/player/:id'
 export enum APIRoute {
   Films = '/films',
   Film = '/films/:id',
+  Promo = '/promo',
   Comments = '/comments',
   Favorite = '/favorite',
   Login = '/login',
