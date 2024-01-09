@@ -6,7 +6,7 @@ import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {
   changeGenre,
   redirectToRoute,
-  requireAuthorization,
+  requireAuthorization, setFavorites,
   setFilm, setFilmComments,
   setFilms,
   setFilmsLoadingStatus,
@@ -69,6 +69,29 @@ export const getFilmReviewsAction = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
     dispatch(setFilmComments(data));
+  },
+);
+
+export const getFavoritesAction = createAsyncThunk<void, undefined, {
+  dispatch: Dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'films/getFavorites',
+  async (_, {dispatch, extra: api}) => {
+    const {data} = await api.get<FilmInList[]>(`${APIRoute.Favorite}`);
+    dispatch(setFavorites(data));
+  },
+);
+
+export const addFavoriteAction = createAsyncThunk<void, {id: string; status: number}, {
+  dispatch: Dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'films/addFavorite',
+  async ({id: id, status: status}, {_, extra: api}) => {
+    await api.post<Film>(`${APIRoute.Favorite}/${id}/${status}`);
   },
 );
 

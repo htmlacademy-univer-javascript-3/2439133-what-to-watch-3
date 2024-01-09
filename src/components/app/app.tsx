@@ -1,10 +1,10 @@
 import {MainScreen, MainScreenProps} from '../../pages/main-screen/main-screen';
 import {Route, Routes} from 'react-router-dom';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
-import MyListScreen, {MyListScreenProps} from '../../pages/my-list-screen/my-list-screen';
+import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import MoviePageScreen from '../../pages/movie-page-screen/movie-page-screen';
-import AddReviewScreen, {AddReviewScreenProps} from '../../pages/add-review-screen/add-review-screen';
-import PlayerScreen, {PlayerScreenProps} from '../../pages/player-screen/player-screen';
+import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
+import PlayerScreen from '../../pages/player-screen/player-screen';
 import PageNotFoundScreen from '../../pages/page-not-found-screen/page-not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
@@ -16,9 +16,6 @@ import browserHistory from '../../browser-history';
 
 type AppProps = {
   mainProps: MainScreenProps;
-  myListProps: MyListScreenProps;
-  playerProps: PlayerScreenProps;
-  addReviewProps: AddReviewScreenProps;
 }
 function App(props: AppProps) {
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
@@ -43,7 +40,7 @@ function App(props: AppProps) {
           path={AppRoute.MyList}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <MyListScreen {...props.myListProps}/>
+              <MyListScreen/>
             </PrivateRoute>
           }
         />
@@ -57,7 +54,7 @@ function App(props: AppProps) {
         />
         <Route
           path={AppRoute.Player}
-          element={<PlayerScreen {...props.playerProps}/>}
+          element={<PlayerScreen/>}
         />
         <Route
           path="*"

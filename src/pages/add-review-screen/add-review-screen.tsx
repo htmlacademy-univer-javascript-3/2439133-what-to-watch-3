@@ -1,5 +1,4 @@
 import {Link, useParams} from 'react-router-dom';
-import {FilmInList} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form';
 import {useAppDispatch} from '../../appDispatch';
@@ -8,9 +7,6 @@ import {getFilmAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
 import {State} from '../../store/reducer';
 
-export type AddReviewScreenProps = {
-  films: FilmInList[];
-}
 function AddReviewScreen() {
   const {id} = useParams();
   const dispatch = useAppDispatch();

@@ -24,9 +24,6 @@ root.render(
           year: 2014
         },
         films: films}}
-      myListProps={{films: films}}
-      playerProps={{films: films}}
-      addReviewProps={{films: films}}
       />
     </Provider>
   </React.StrictMode>

@@ -11,7 +11,8 @@ export function VideoPlayer(props: PropsVideoPlayer) {
   return (
     <video
       src={props.src}
-      controls muted={props.muted}
+      controls
+      muted={props.muted}
       width={props.width}
       height={props.height}
       autoPlay={props.autoplay}
