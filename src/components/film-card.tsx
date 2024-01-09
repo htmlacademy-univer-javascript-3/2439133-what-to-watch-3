@@ -1,14 +1,14 @@
-import {Film} from '../mocks/films';
+import {FilmInList} from '../mocks/films';
 import {AppRoute} from '../const';
 import {useState, useRef} from 'react';
 import {VideoPlayer} from './video-player';
 
 type FilmCardProps = {
-  film: Film;
+  film: FilmInList;
 }
 
 type FilmCardsListProps = {
-  films: Film[];
+  films: FilmInList[];
 }
 export function FilmCard(props: FilmCardProps) {
   const film = props.film;

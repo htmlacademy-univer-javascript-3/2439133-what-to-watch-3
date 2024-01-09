@@ -1,34 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {Film} from '../../mocks/films';
-import {Details} from '../../mocks/films-details';
-import {Reviews} from '../../mocks/films-reviews';
-import {Overviews} from '../../mocks/films-overviews';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {Tabs} from '../../components/film-tabs';
 import {FilmCardsList} from '../../components/film-card';
-import {store} from '../../store';
+import {useAppDispatch} from '../../appDispatch';
+import {getFilmAction, getFilmReviewsAction, getSimilarFilmsAction} from '../../store/api-actions';
+import {useSelector} from 'react-redux';
+import {State} from '../../store/reducer';
+import {Spinner} from '../../components/spinner';
 
-function getSimilar(id:string, films:Film[], genre: string): Film[] {
-  return films.filter((x) =>
-    x.id !== id && genre === Details.find((y) => y.filmId === x.id)?.genre);
-}
 function MoviePageScreen(){
   const {id} = useParams();
-  const Films = store.getState().films;
-  const film = Films.find((x) => x.id === id);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getFilmAction(id ?? ''));
+    dispatch(getSimilarFilmsAction(id ?? ''));
+    dispatch(getFilmReviewsAction(id ?? ''));
+  },[id, dispatch]);
 
-  const overview = Overviews.find((x) => x.filmId === id);
-  const details = Details.find((x) => x.filmId === id);
-  const reviews = Reviews.filter((x) => x.filmId === id);
+  const film = useSelector((state:State) => state.currentFilm);
+
+  const reviews = useSelector((state:State) => state.filmComments);
+  const similarFilms = useSelector((state:State) => state.similarFilms);
   const [activeTab, setActiveTab] = useState('Overview');
+
+  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+
+  const loading = useSelector((state:State) => state.filmsLoadingStatus);
+
+  if(authorizationStatus !== AuthorizationStatus.Auth || loading || film === undefined) {
+    return (
+      <Spinner/>
+    );
+  }
+
 
   return(
     <React.Fragment>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.previewImage} alt={film.name}/>
+            <img src={film?.posterImage} alt={film?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -56,10 +68,10 @@ function MoviePageScreen(){
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{details.releaseYear}</span>
+                <span className="film-card__genre">{film?.genre}</span>
+                <span className="film-card__year">{film?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -76,7 +88,8 @@ function MoviePageScreen(){
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                {authorizationStatus === AuthorizationStatus.Auth &&
+                  <a href={AppRoute.AddReview.replace(':id', id ?? '')} className="btn film-card__button">Add review</a>}
               </div>
             </div>
           </div>
@@ -85,13 +98,13 @@ function MoviePageScreen(){
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.previewImage} alt={film.name} width="218"
+              <img src={film?.backgroundImage} alt={film?.name} width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <Tabs setTab={setActiveTab} activeTab={activeTab} reviews={reviews} overview={overview} detail={details}/>
+              <Tabs setTab={setActiveTab} activeTab={activeTab} reviews={reviews} film={film}/>
             </div>
           </div>
         </div>
@@ -101,7 +114,7 @@ function MoviePageScreen(){
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmCardsList films={getSimilar(id, Films, film.genre)}/>
+          <FilmCardsList films={similarFilms}/>
         </section>
 
         <footer className="page-footer">

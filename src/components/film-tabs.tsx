@@ -1,14 +1,13 @@
 import React from 'react';
-import { Overview } from '../mocks/films-overviews';
-import { Detail } from '../mocks/films-details';
 import { Review } from '../mocks/films-reviews';
+import {Film} from '../mocks/films';
 
 type OverviewSectionProps = {
-  overview: Overview;
+  film: Film;
 }
 
 type DetailsSectionProps = {
-  detail: Detail;
+  film: Film;
 }
 
 type ReviewsSectionProps = {
@@ -16,8 +15,7 @@ type ReviewsSectionProps = {
 }
 
 type TabsProps = {
-  overview: Overview;
-  detail: Detail;
+  film: Film;
   reviews: Review[];
   setTab: (tabName: string) => void;
   activeTab: string;
@@ -27,19 +25,19 @@ export function OverviewSection(props: OverviewSectionProps) {
   return (
     <React.Fragment>
       <div className="film-rating">
-        <div className="film-rating__score">{props.overview.ratingNumber}</div>
+        <div className="film-rating__score">{props.film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{props.overview.ratingLevel}</span>
-          <span className="film-rating__count">{props.overview.ratingVotes} ratings</span>
+          <span className="film-rating__level">{props.film.rating}</span>
+          <span className="film-rating__count">{props.film.scoresCount} ratings</span>
         </p>
       </div>
 
       <div className="film-card__text">
-        <p>{props.overview.description}</p>
+        <p>{props.film.description}</p>
 
-        <p className="film-card__director"><strong>Director: {props.overview.director}</strong></p>
+        <p className="film-card__director"><strong>Director: {props.film.director}</strong></p>
 
-        <p className="film-card__starring"><strong>Starring: {props.overview.starring}</strong></p>
+        <p className="film-card__starring"><strong>Starring: {props.film.starring}</strong></p>
       </div>
     </React.Fragment>
   );
@@ -51,12 +49,12 @@ export function DetailsSection(props: DetailsSectionProps) {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{props.detail.director}</span>
+          <span className="film-card__details-value">{props.film.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {props.detail.starring}
+            {props.film.starring}
           </span>
         </p>
       </div>
@@ -64,15 +62,15 @@ export function DetailsSection(props: DetailsSectionProps) {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{props.detail.runTime}</span>
+          <span className="film-card__details-value">{props.film.runTime}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{props.detail.genre}</span>
+          <span className="film-card__details-value">{props.film.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{props.detail.releaseYear}</span>
+          <span className="film-card__details-value">{props.film.released}</span>
         </p>
       </div>
     </div>
@@ -86,10 +84,10 @@ export function ReviewsSection(props: ReviewsSectionProps) {
         {props.reviews.slice(0, Math.ceil(props.reviews.length / 2)).map((x) => (
           <div className="review" key={x.id}>
             <blockquote className="review__quote">
-              <p className="review__text">{x.text}</p>
+              <p className="review__text">{x.comment}</p>
 
               <footer className="review__details">
-                <cite className="review__author">{x.author}</cite>
+                <cite className="review__author">{x.user}</cite>
                 <time className="review__date" dateTime={x.date.toString()}>{x.date.toString()}</time>
               </footer>
             </blockquote>
@@ -100,10 +98,10 @@ export function ReviewsSection(props: ReviewsSectionProps) {
         {props.reviews.slice(Math.ceil(props.reviews.length / 2), props.reviews.length).map((x) => (
           <div className="review" key={x.id}>
             <blockquote className="review__quote">
-              <p className="review__text">{x.text}</p>
+              <p className="review__text">{x.comment}</p>
 
               <footer className="review__details">
-                <cite className="review__author">{x.author}</cite>
+                <cite className="review__author">{x.user}</cite>
                 <time className="review__date" dateTime={x.date.toString()}>{x.date.toString()}</time>
               </footer>
             </blockquote>
@@ -131,8 +129,8 @@ export function Tabs(props: TabsProps) {
           </li>
         </ul>
       </nav>
-      {props.activeTab === 'Overview' && <OverviewSection overview={props.overview} />}
-      {props.activeTab === 'Details' && <DetailsSection detail={props.detail} />}
+      {props.activeTab === 'Overview' && <OverviewSection film={props.film} />}
+      {props.activeTab === 'Details' && <DetailsSection film={props.film} />}
       {props.activeTab === 'Reviews' && <ReviewsSection reviews={props.reviews} />}
     </React.Fragment>
   );

@@ -53,7 +53,7 @@ function App(props: AppProps) {
         />
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen {...props.addReviewProps}/>}
+          element={<AddReviewScreen/>}
         />
         <Route
           path={AppRoute.Player}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {FilmCardsList} from '../../components/film-card';
-import {Film} from '../../mocks/films';
+import {FilmInList} from '../../mocks/films';
 import {Details} from '../../mocks/films-details';
 import {GenresList} from '../../components/genres-list';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,7 +17,7 @@ type PromoFilm = {
 
 export type MainScreenProps = {
   promoFilm: PromoFilm;
-  films: Film[];
+  films: FilmInList[];
 }
 
 export function MainScreen(props: MainScreenProps) {
@@ -58,7 +58,7 @@ export function MainScreen(props: MainScreenProps) {
 
           <ul className="user-block">
             {
-              authorizationStatus === AuthorizationStatus.Unknown
+              authorizationStatus === AuthorizationStatus.Unknown || AuthorizationStatus.NoAuth
                 ? <a className="user-block__link" href={AppRoute.SignIn}>Sign in</a>
                 : <>
                   <li className="user-block__item">
