@@ -9,7 +9,7 @@ import {
   getFavoritesAction,
   getFilmAction,
   getFilmReviewsAction,
-  getSimilarFilmsAction
+  getSimilarFilmsAction, logoutAction
 } from '../../store/api-actions';
 import {useSelector} from 'react-redux';
 import {State} from '../../store/reducer';
@@ -37,20 +37,26 @@ function MoviePageScreen(){
 
   const loading = useSelector((state:State) => state.filmsLoadingStatus);
 
+  const userData = useSelector((state: State) => state.userData);
+
   const navigate = useNavigate();
 
-  if(authorizationStatus !== AuthorizationStatus.Auth || loading || film === undefined) {
+  if(authorizationStatus !== AuthorizationStatus.Auth || loading || id === undefined || film === undefined) {
     return (
       <Spinner/>
     );
   }
 
   const handlePlay = () => {
-    navigate(AppRoute.Player.replace(':id', id ?? ''));
+    navigate(AppRoute.Player.replace(':id', id));
   };
 
   const handleChangeList = () => {
     dispatch(addFavoriteAction({id: id, status: film.isFavorite ? 0 : 1}));
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
   };
 
   return(
@@ -58,7 +64,7 @@ function MoviePageScreen(){
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film?.posterImage} alt={film?.name}/>
+            <img src={film?.backgroundImage} alt={film?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -75,11 +81,11 @@ function MoviePageScreen(){
             <ul className="user-block">
               <li className="user-block__item">
                 <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                  <img src={userData?.avatarUrl} alt="User avatar" width="63" height="63"/>
                 </div>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
+                <a className="user-block__link" onClick={handleLogout}>Sign out</a>
               </li>
             </ul>
           </header>
@@ -120,7 +126,7 @@ function MoviePageScreen(){
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film?.backgroundImage} alt={film?.name} width="218"
+              <img src={film?.posterImage} alt={film?.name} width="218"
                 height="327"
               />
             </div>
@@ -135,13 +141,12 @@ function MoviePageScreen(){
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-
           <FilmCardsList films={similarFilms}/>
         </section>
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <a href={AppRoute.Main} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>

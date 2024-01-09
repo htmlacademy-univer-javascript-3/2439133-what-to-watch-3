@@ -5,6 +5,7 @@ import {getFilmAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
 import {State} from '../../store/reducer';
 import {VideoPlayer} from '../../components/video-player';
+import {Spinner} from '../../components/spinner';
 
 
 function PlayerScreen(){
@@ -16,9 +17,13 @@ function PlayerScreen(){
 
   const film = useSelector((state:State) => state.currentFilm);
 
+  if(film === undefined){
+    return <Spinner/>;
+  }
+
   return(
     <div className="player">
-      <VideoPlayer src={film?.videoLink} muted width={'100%'} height={'100%'} poster={film?.backgroundImage} autoplay/>
+      <VideoPlayer src={film.videoLink} muted width={'100%'} height={'100%'} poster={film.backgroundImage} autoplay/>
 
       <button type="button" className="player__exit">Exit</button>
     </div>

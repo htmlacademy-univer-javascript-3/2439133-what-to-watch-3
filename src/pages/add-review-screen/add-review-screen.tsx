@@ -3,18 +3,31 @@ import {AppRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form';
 import {useAppDispatch} from '../../appDispatch';
 import {useEffect} from 'react';
-import {getFilmAction} from '../../store/api-actions';
+import {getFilmAction, logoutAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
 import {State} from '../../store/reducer';
+import {Spinner} from '../../components/spinner';
 
 function AddReviewScreen() {
   const {id} = useParams();
+
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getFilmAction(id ?? ''));
   },[id, dispatch]);
 
   const film = useSelector((state:State) => state.currentFilm);
+
+  const userInfo = useSelector((state:State) => state.userData);
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
+
+  if(id === undefined){
+    return <Spinner/>;
+  }
 
   return (
     <section className="film-card film-card--full">
@@ -48,11 +61,11 @@ function AddReviewScreen() {
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                <img src={userInfo?.avatarUrl} alt="User avatar" width="63" height="63"/>
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <a className="user-block__link" onClick={handleLogout}>Sign out</a>
             </li>
           </ul>
         </header>
