@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import {FilmCardsList} from '../../components/film-card';
 import {Details} from '../../mocks/films-details';
 import {GenresList} from '../../components/genres-list';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {changeGenre} from '../../store/action';
 import {State} from '../../store/reducer';
 import {Spinner} from '../../components/spinner';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {logoutAction} from '../../store/api-actions';
+import {useAppDispatch} from '../../appDispatch';
 
 export function MainScreen() {
   const filmsByGenre = useSelector((state: State) => state.filmsByGenre);
   const promoFilm = useSelector((state: State) => state.promoFilm);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [visibleCount, setVisibleCount] = useState(8);
   const [genre, setGenre] = useState('All genres');
 
@@ -25,7 +27,13 @@ export function MainScreen() {
     setVisibleCount(8);
   };
 
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
+
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+
+  const userData = useSelector((state: State) => state.userData);
 
   return (
     <React.Fragment>
@@ -38,7 +46,7 @@ export function MainScreen() {
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <a className="logo__link" href={AppRoute.Main}>
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -53,11 +61,11 @@ export function MainScreen() {
                 <>
                   <li className="user-block__item">
                     <div className="user-block__avatar">
-                      <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                      <img src={userData?.avatarUrl} alt="User avatar" width="63" height="63" />
                     </div>
                   </li>
                   <li className="user-block__item">
-                    <a className="user-block__link">Sign out</a>
+                    <a className="user-block__link" onClick={handleLogout}>Sign out</a>
                   </li>
                 </>
             }
@@ -123,7 +131,7 @@ export function MainScreen() {
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light">
+            <a className="logo__link logo__link--light" href={AppRoute.Main}>
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>

@@ -5,13 +5,14 @@ import {
   setFilmComments,
   setFilms,
   setFilmsLoadingStatus, setPromoFilm,
-  setSimilarFilms
+  setSimilarFilms, setUserData
 } from './action';
 import {Film, FilmInList, PromoFilm} from '../mocks/films';
 import { createReducer } from '@reduxjs/toolkit';
 import {getFilmsByGenre} from '../getFilmsByGenre';
 import {AuthorizationStatus} from '../const';
 import {Review} from '../mocks/films-reviews';
+import {UserData} from '../types/user-data';
 
 export type State = {
   genre: string;
@@ -24,6 +25,7 @@ export type State = {
   filmComments: Review[];
   filmsLoadingStatus: boolean;
   authorizationStatus: AuthorizationStatus;
+  userData?: UserData;
 };
 
 export const initialState: State = {
@@ -36,7 +38,8 @@ export const initialState: State = {
   promoFilm: undefined,
   filmComments: [],
   filmsLoadingStatus: false,
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userData: undefined
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -68,5 +71,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });

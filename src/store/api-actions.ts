@@ -10,10 +10,10 @@ import {
   setFilm, setFilmComments,
   setFilms,
   setFilmsLoadingStatus, setPromoFilm,
-  setSimilarFilms
+  setSimilarFilms, setUserData
 } from './action';
 import {store} from './index';
-import {saveToken} from '../services/token';
+import {dropToken, saveToken} from '../services/token';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {Review, ReviewData} from '../mocks/films-reviews';
@@ -102,7 +102,7 @@ export const addFavoriteAction = createAsyncThunk<void, {id: string; status: num
   extra: AxiosInstance;
 }>(
   'films/addFavorite',
-  async ({id: id, status: status}, {_, extra: api}) => {
+  async ({id: id, status: status}, {extra: api}) => {
     await api.post<Film>(`${APIRoute.Favorite}/${id}/${status}`);
   },
 );
@@ -113,7 +113,7 @@ export const addReview = createAsyncThunk<void, ReviewData, {
   extra: AxiosInstance;
 }>(
   'films/addReview',
-  async ({filmId: filmId, comment: comment, rating: rating}, {_, extra: api}) => {
+  async ({filmId: filmId, comment: comment, rating: rating}, {extra: api}) => {
     await api.post<Review>(`${APIRoute.Comments}/${filmId}`, { comment: comment, rating: rating});
   },
 );
@@ -141,9 +141,23 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'user/login',
   async ({email: email, password: password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setUserData(data));
     dispatch(redirectToRoute(AppRoute.Main));
+  },
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: Dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/logout',
+  async (_arg, {dispatch, extra: api}) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
