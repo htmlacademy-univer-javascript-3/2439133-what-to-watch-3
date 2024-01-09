@@ -1,20 +1,30 @@
 import {Link, useParams} from 'react-router-dom';
-import {Film} from '../../mocks/films';
+import {FilmInList} from '../../mocks/films';
 import {AppRoute} from '../../const';
 import AddReviewForm from '../../components/add-review-form';
+import {useAppDispatch} from '../../appDispatch';
+import {useEffect} from 'react';
+import {getFilmAction} from '../../store/api-actions';
+import {useSelector} from 'react-redux';
+import {State} from '../../store/reducer';
 
 export type AddReviewScreenProps = {
-  films: Film[];
+  films: FilmInList[];
 }
-function AddReviewScreen(props: AddReviewScreenProps) {
+function AddReviewScreen() {
   const {id} = useParams();
-  const film = props.films.filter((x)=>x.id === id)[0];
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getFilmAction(id ?? ''));
+  },[id, dispatch]);
+
+  const film = useSelector((state:State) => state.currentFilm);
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.previewImage} alt={film.name}/>
+          <img src={film?.posterImage} alt={film?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,7 +41,7 @@ function AddReviewScreen(props: AddReviewScreenProps) {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`${AppRoute.Film.replace(':id', film.id)}`} className="breadcrumbs__link">{film.name}</Link>
+                <Link to={`${AppRoute.Film.replace(':id', id ?? '')}`} className="breadcrumbs__link">{film?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -52,14 +62,14 @@ function AddReviewScreen(props: AddReviewScreenProps) {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.previewImage} alt={film.name} width="218"
+          <img src={film?.posterImage} alt={film?.name} width="218"
             height="327"
           />
         </div>
       </div>
 
       <div className="add-review">
-        <AddReviewForm />
+        <AddReviewForm filmId={id} />
       </div>
 
     </section>

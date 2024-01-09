@@ -1,8 +1,15 @@
 import {SetStateAction, useState} from 'react';
+import {useAppDispatch} from '../appDispatch';
+import {addReview} from '../store/api-actions';
 
-function AddReviewForm() {
+type AddReviewFormProps = {
+  filmId: string;
+}
+
+function AddReviewForm(props: AddReviewFormProps) {
   const [rating, setRating] = useState('');
   const [reviewText, setReviewText] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleRatingChange = (event: { target: { value: SetStateAction<string> } }) => {
     setRating(event.target.value);
@@ -14,6 +21,7 @@ function AddReviewForm() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    dispatch(addReview({filmId: props.filmId, comment: reviewText, rating: Number(rating)}));
   };
 
   return (

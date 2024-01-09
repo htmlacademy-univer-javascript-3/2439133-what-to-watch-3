@@ -1,6 +1,6 @@
-import {Film} from './mocks/films';
+import {FilmInList} from './mocks/films';
 
-export function getFilmsByGenre (genre: string, films: Film[]) {
+export function getFilmsByGenre (genre: string, films: FilmInList[]) {
   if (genre === 'All genres') {
     return films;
   }

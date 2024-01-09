@@ -1,8 +1,8 @@
 import {useParams} from 'react-router-dom';
-import {Film} from '../../mocks/films';
+import {FilmInList} from '../../mocks/films';
 
 export type PlayerScreenProps = {
-  films: Film[];
+  films: FilmInList[];
 }
 
 function PlayerScreen(props: PlayerScreenProps){

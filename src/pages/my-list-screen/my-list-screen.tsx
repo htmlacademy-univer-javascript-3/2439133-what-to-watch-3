@@ -1,10 +1,10 @@
 import {FilmCardsList} from '../../components/film-card';
-import {Film} from '../../mocks/films';
+import {FilmInList} from '../../mocks/films';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 
 export type MyListScreenProps = {
-  films: Film[];
+  films: FilmInList[];
 }
 
 function MyListScreen(props: MyListScreenProps){
