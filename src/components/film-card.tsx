@@ -1,6 +1,6 @@
 import {FilmInList} from '../mocks/films';
 import {AppRoute} from '../const';
-import {useState, useRef} from 'react';
+import {useState, useRef, memo} from 'react';
 import {VideoPlayer} from './video-player';
 
 type FilmCardProps = {
@@ -10,7 +10,7 @@ type FilmCardProps = {
 type FilmCardsListProps = {
   films: FilmInList[];
 }
-export function FilmCard(props: FilmCardProps) {
+function FilmCardComponent(props: FilmCardProps) {
   const film = props.film;
   const [isPlaying, setIsPlaying] = useState(false);
   const timeoutRef = useRef<number | null>(null);
@@ -40,6 +40,8 @@ export function FilmCard(props: FilmCardProps) {
     </article>
   );
 }
+
+const FilmCard = memo(FilmCardComponent, (prevProps, nextProps) => prevProps.film.id === nextProps.film.id);
 
 export function FilmCardsList(props: FilmCardsListProps){
   const films = props.films;

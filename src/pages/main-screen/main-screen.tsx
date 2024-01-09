@@ -58,7 +58,7 @@ export function MainScreen(props: MainScreenProps) {
 
           <ul className="user-block">
             {
-              authorizationStatus === AuthorizationStatus.Unknown || AuthorizationStatus.NoAuth
+              authorizationStatus === AuthorizationStatus.Unknown || authorizationStatus === AuthorizationStatus.NoAuth
                 ? <a className="user-block__link" href={AppRoute.SignIn}>Sign in</a>
                 : <>
                   <li className="user-block__item">
