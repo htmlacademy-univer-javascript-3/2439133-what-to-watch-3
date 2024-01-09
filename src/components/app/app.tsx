@@ -9,10 +9,10 @@ import PageNotFoundScreen from '../../pages/page-not-found-screen/page-not-found
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {useSelector} from 'react-redux';
-import {State} from '../../store/reducer';
-import {Spinner} from '../spinner';
+import {Spinner} from '../spinner/spinner';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
+import {State} from '../../types/state';
 
 function App() {
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);

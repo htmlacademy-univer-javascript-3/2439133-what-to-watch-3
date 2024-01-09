@@ -1,6 +1,6 @@
 import React from 'react';
-import { Review } from '../mocks/films-reviews';
-import {Film} from '../mocks/films';
+import { Review } from '../../types/films-reviews';
+import {Film} from '../../types/films';
 
 type OverviewSectionProps = {
   film: Film;

@@ -1,32 +1,19 @@
 import {
   changeGenre,
-  requireAuthorization, setFavorites,
+  requireAuthorization,
+  setFavorites,
   setFilm,
   setFilmComments,
   setFilms,
-  setFilmsLoadingStatus, setPromoFilm,
-  setSimilarFilms, setUserData
+  setFilmsLoadingStatus,
+  setPromoFilm,
+  setSimilarFilms,
+  setUserData
 } from './action';
-import {Film, FilmInList, PromoFilm} from '../mocks/films';
-import { createReducer } from '@reduxjs/toolkit';
-import {getFilmsByGenre} from '../getFilmsByGenre';
+import {createReducer} from '@reduxjs/toolkit';
+import {getFilmsByGenre} from '../utils/getFilmsByGenre';
 import {AuthorizationStatus} from '../const';
-import {Review} from '../mocks/films-reviews';
-import {UserData} from '../types/user-data';
-
-export type State = {
-  genre: string;
-  filmsByGenre: FilmInList[];
-  films: FilmInList[];
-  favorites: FilmInList[];
-  similarFilms: FilmInList[];
-  currentFilm?: Film;
-  promoFilm?: PromoFilm;
-  filmComments: Review[];
-  filmsLoadingStatus: boolean;
-  authorizationStatus: AuthorizationStatus;
-  userData?: UserData;
-};
+import {State} from '../types/state';
 
 export const initialState: State = {
   genre: 'All genres',

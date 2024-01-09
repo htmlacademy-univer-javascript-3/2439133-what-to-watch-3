@@ -1,6 +1,7 @@
 import {FormEvent, useRef} from 'react';
 import {loginAction} from '../../store/api-actions';
-import {useAppDispatch} from '../../appDispatch';
+import {useAppDispatch} from '../../types/state';
+import {AppRoute} from '../../const';
 
 function SignInScreen(){
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -23,7 +24,7 @@ function SignInScreen(){
     <div className="user-page">
       <header className="page-header user-page__head">
         <div className="logo">
-          <a href="main.html" className="logo__link">
+          <a href={AppRoute.Main} className="logo__link">
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
@@ -57,7 +58,7 @@ function SignInScreen(){
 
       <footer className="page-footer">
         <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
+          <a href={AppRoute.Main} className="logo__link logo__link--light">
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>

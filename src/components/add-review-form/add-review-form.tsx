@@ -1,6 +1,6 @@
 import {SetStateAction, useState} from 'react';
-import {useAppDispatch} from '../appDispatch';
-import {addReview} from '../store/api-actions';
+import {addReview} from '../../store/api-actions';
+import {useAppDispatch} from '../../types/state';
 
 type AddReviewFormProps = {
   filmId: string;
@@ -25,7 +25,7 @@ function AddReviewForm(props: AddReviewFormProps) {
   };
 
   return (
-    <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+    <form action="src/components#" className="add-review__form" onSubmit={handleSubmit}>
       <div className="rating">
         <div className="rating__stars">
           <input className="rating__input" id="star-10" type="radio" name="rating" value="10" checked={rating === '10'} onChange={handleRatingChange} />

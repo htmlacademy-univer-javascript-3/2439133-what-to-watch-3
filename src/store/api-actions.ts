@@ -1,7 +1,6 @@
 import {createAsyncThunk, Dispatch} from '@reduxjs/toolkit';
-import {Film, FilmInList, PromoFilm} from '../mocks/films';
+import {Film, FilmInList, PromoFilm} from '../types/films';
 import {AxiosInstance} from 'axios';
-import {State} from './reducer';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {
   changeGenre,
@@ -16,7 +15,8 @@ import {store} from './index';
 import {dropToken, saveToken} from '../services/token';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
-import {Review, ReviewData} from '../mocks/films-reviews';
+import {Review, ReviewData} from '../types/films-reviews';
+import {State} from '../types/state';
 
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {

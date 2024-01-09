@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {Tabs} from '../../components/film-tabs';
-import {FilmCardsList} from '../../components/film-card';
-import {useAppDispatch} from '../../appDispatch';
+import {Tabs} from '../../components/film-tabs/film-tabs';
+import {FilmCardsList} from '../../components/film-card/film-card';
 import {
   addFavoriteAction,
   getFavoritesAction,
@@ -12,8 +11,8 @@ import {
   getSimilarFilmsAction, logoutAction
 } from '../../store/api-actions';
 import {useSelector} from 'react-redux';
-import {State} from '../../store/reducer';
-import {Spinner} from '../../components/spinner';
+import {Spinner} from '../../components/spinner/spinner';
+import {State, useAppDispatch} from '../../types/state';
 
 function MoviePageScreen(){
   const {id} = useParams();
