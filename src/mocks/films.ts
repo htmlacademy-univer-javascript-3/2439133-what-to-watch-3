@@ -24,6 +24,17 @@ export type Film = {
   isFavorite: boolean;
 }
 
+export type PromoFilm = {
+  id: string;
+  name: string;
+  posterImage: string;
+  backgroundImage: string;
+  videoLink: string;
+  genre: string;
+  released: number;
+  isFavorite: boolean;
+}
+
 // export const Films: Film[] = [
 //   {
 //     id : '1',

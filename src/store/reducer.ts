@@ -4,10 +4,10 @@ import {
   setFilm,
   setFilmComments,
   setFilms,
-  setFilmsLoadingStatus,
+  setFilmsLoadingStatus, setPromoFilm,
   setSimilarFilms
 } from './action';
-import {Film, FilmInList} from '../mocks/films';
+import {Film, FilmInList, PromoFilm} from '../mocks/films';
 import { createReducer } from '@reduxjs/toolkit';
 import {getFilmsByGenre} from '../getFilmsByGenre';
 import {AuthorizationStatus} from '../const';
@@ -20,18 +20,20 @@ export type State = {
   favorites: FilmInList[];
   similarFilms: FilmInList[];
   currentFilm?: Film;
+  promoFilm?: PromoFilm;
   filmComments: Review[];
   filmsLoadingStatus: boolean;
   authorizationStatus: AuthorizationStatus;
 };
 
-const initialState: State = {
+export const initialState: State = {
   genre: 'All genres',
   filmsByGenre: [],
   films: [],
   similarFilms: [],
   favorites: [],
   currentFilm: undefined,
+  promoFilm: undefined,
   filmComments: [],
   filmsLoadingStatus: false,
   authorizationStatus: AuthorizationStatus.Unknown
@@ -51,6 +53,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilm, (state, action) => {
       state.currentFilm = action.payload;
+    })
+    .addCase(setPromoFilm, (state, action) => {
+      state.promoFilm = action.payload;
     })
     .addCase(setFilmComments, (state, action) => {
       state.filmComments = action.payload;

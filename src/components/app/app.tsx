@@ -1,4 +1,4 @@
-import {MainScreen, MainScreenProps} from '../../pages/main-screen/main-screen';
+import {MainScreen} from '../../pages/main-screen/main-screen';
 import {Route, Routes} from 'react-router-dom';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
@@ -14,10 +14,7 @@ import {Spinner} from '../spinner';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  mainProps: MainScreenProps;
-}
-function App(props: AppProps) {
+function App() {
   const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
@@ -30,7 +27,7 @@ function App(props: AppProps) {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen {...props.mainProps}/>}
+          element={<MainScreen/>}
         />
         <Route
           path={AppRoute.SignIn}

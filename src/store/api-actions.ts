@@ -1,5 +1,5 @@
 import {createAsyncThunk, Dispatch} from '@reduxjs/toolkit';
-import {Film, FilmInList} from '../mocks/films';
+import {Film, FilmInList, PromoFilm} from '../mocks/films';
 import {AxiosInstance} from 'axios';
 import {State} from './reducer';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
@@ -9,7 +9,7 @@ import {
   requireAuthorization, setFavorites,
   setFilm, setFilmComments,
   setFilms,
-  setFilmsLoadingStatus,
+  setFilmsLoadingStatus, setPromoFilm,
   setSimilarFilms
 } from './action';
 import {store} from './index';
@@ -45,6 +45,18 @@ export const getFilmAction = createAsyncThunk<void, string, {
     const {data} = await api.get<Film>(`${APIRoute.Films}/${id}`);
     dispatch(setFilmsLoadingStatus(false));
     dispatch(setFilm(data));
+  },
+);
+
+export const getPromoFilmAction = createAsyncThunk<void, undefined, {
+  dispatch: Dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'films/getPromo',
+  async (_, {dispatch, extra: api}) => {
+    const {data} = await api.get<PromoFilm>(`${APIRoute.Promo}`);
+    dispatch(setPromoFilm(data));
   },
 );
 
