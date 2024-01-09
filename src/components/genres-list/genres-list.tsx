@@ -1,14 +1,14 @@
-import {Detail} from '../mocks/films-details';
+import {FilmInList} from '../../types/films';
 
 
 type GenresListProps = {
-  details: Detail[];
+  films: FilmInList[];
   currentGenre: string;
   onChange: (genre: string) => void;
 }
 
 export function GenresList (props: GenresListProps) {
-  const genresFromFilms = new Set(props.details.map((detail) => detail.genre));
+  const genresFromFilms = new Set(props.films.map((film) => film.genre));
   const genres = ['All genres', ...genresFromFilms];
   return (
     <ul className="catalog__genres-list">

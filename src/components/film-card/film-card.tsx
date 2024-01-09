@@ -1,7 +1,7 @@
-import {FilmInList} from '../mocks/films';
-import {AppRoute} from '../const';
+import {FilmInList} from '../../types/films';
+import {AppRoute} from '../../const';
 import {useState, useRef, memo} from 'react';
-import {VideoPlayer} from './video-player';
+import {VideoPlayer} from '../video-player/video-player';
 
 type FilmCardProps = {
   film: FilmInList;

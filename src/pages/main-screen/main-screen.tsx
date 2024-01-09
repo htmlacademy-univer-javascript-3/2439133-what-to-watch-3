@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
-import {FilmCardsList} from '../../components/film-card';
-import {Details} from '../../mocks/films-details';
-import {GenresList} from '../../components/genres-list';
+import {FilmCardsList} from '../../components/film-card/film-card';
+import {GenresList} from '../../components/genres-list/genres-list';
 import {useSelector} from 'react-redux';
 import {changeGenre} from '../../store/action';
-import {State} from '../../store/reducer';
-import {Spinner} from '../../components/spinner';
+import {Spinner} from '../../components/spinner/spinner';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {logoutAction} from '../../store/api-actions';
-import {useAppDispatch} from '../../appDispatch';
+import {State, useAppDispatch} from '../../types/state';
 
 export function MainScreen() {
+  const films = useSelector((state: State) => state.films);
   const filmsByGenre = useSelector((state: State) => state.filmsByGenre);
   const promoFilm = useSelector((state: State) => state.promoFilm);
   const dispatch = useAppDispatch();
@@ -114,7 +113,7 @@ export function MainScreen() {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList details={Details} currentGenre={genre} onChange={handleGenreChange}/>
+          <GenresList films={films} currentGenre={genre} onChange={handleGenreChange}/>
           {
             useSelector((state:State) => state.filmsLoadingStatus)
               ? <Spinner />

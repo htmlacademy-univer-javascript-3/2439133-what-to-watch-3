@@ -1,11 +1,10 @@
 import {useParams} from 'react-router-dom';
-import {useAppDispatch} from '../../appDispatch';
 import {useEffect} from 'react';
 import {getFilmAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
-import {State} from '../../store/reducer';
-import {VideoPlayer} from '../../components/video-player';
-import {Spinner} from '../../components/spinner';
+import {VideoPlayer} from '../../components/video-player/video-player';
+import {Spinner} from '../../components/spinner/spinner';
+import {State, useAppDispatch} from '../../types/state';
 
 
 function PlayerScreen(){

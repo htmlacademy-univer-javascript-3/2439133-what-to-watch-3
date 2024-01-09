@@ -1,12 +1,11 @@
 import {Link, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import AddReviewForm from '../../components/add-review-form';
-import {useAppDispatch} from '../../appDispatch';
+import AddReviewForm from '../../components/add-review-form/add-review-form';
 import {useEffect} from 'react';
 import {getFilmAction, logoutAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
-import {State} from '../../store/reducer';
-import {Spinner} from '../../components/spinner';
+import {Spinner} from '../../components/spinner/spinner';
+import {State, useAppDispatch} from '../../types/state';
 
 function AddReviewScreen() {
   const {id} = useParams();

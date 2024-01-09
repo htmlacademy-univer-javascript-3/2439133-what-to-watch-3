@@ -1,11 +1,10 @@
-import {FilmCardsList} from '../../components/film-card';
+import {FilmCardsList} from '../../components/film-card/film-card';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {useAppDispatch} from '../../appDispatch';
 import {useEffect} from 'react';
 import {getFavoritesAction} from '../../store/api-actions';
 import {useSelector} from 'react-redux';
-import {State} from '../../store/reducer';
+import {State, useAppDispatch} from '../../types/state';
 
 function MyListScreen(){
   const dispatch = useAppDispatch();
